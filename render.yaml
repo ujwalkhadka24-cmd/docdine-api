@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: docdine-api
+    runtime: python
+    buildCommand: apt-get install -y tesseract-ocr && pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://www.docdine.com,http://localhost:5173,http://localhost:3000
+    healthCheckPath: /health
+    autoDeploy: true
